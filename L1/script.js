@@ -5,11 +5,16 @@ const goods = [
     { title: 'Shoes', price: 250 },
     ];
 
-const renderGoodsItem = (title, price) => {
-    return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
+const renderGoodsItem = (title = 'null', price = '0') => {
+    let img = '<img src="http://placehold.it/150x100/"/>';
+    let buybutton = '<button class="buy-button" type="button">Купить</button>';
+    
+    return `<div class="goods-item">${img}<h3>${title}</h3><p>${price}</p> ${buybutton}</div>`;
 };
-const renderGoodsList = (list) => {
+
+
+const renderGoodsList = (list = []) => {
     let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
-    document.querySelector('.goods-list').innerHTML = goodsList;
+    document.querySelector('.goods-list').innerHTML = goodsList.join('');
 }
 renderGoodsList(goods);
