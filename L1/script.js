@@ -52,6 +52,7 @@ class GoodsList {
       return sum;
     }
 
+    
 //Метод через .Map, определяющий суммарную стоимость всех товаров.
     totalsum_map() {
         let total_map = 0;
