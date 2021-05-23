@@ -32,9 +32,12 @@
 }
 .buy-button {    
     border-radius: 5px;
-    padding: 5px 15px;
+    padding: 10px 15px;
     margin-left: 75px;
     margin-top: 15px;
     border: none;
     background-color: rgb(13, 169, 221);
+}
+.goods-img {
+    padding: 10px 0px 15px 0px;
 }
