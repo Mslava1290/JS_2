@@ -8,24 +8,31 @@ h3,p {
 img{
     padding-bottom: 10px;
 }
-.header {
+.heading {
+    width: 100%;
     background-color: rgb(244,245,250);
     height: 45px;
     display: flex;
+    flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
+    justify-content: space-between;
 }
-
+.header {
+    font-size: 30px;
+    font-family: sans-serif;
+    max-width: 75%;
+}
 .cart-button {
+    width: 20%;
     background-color: rgb(164,158,240);
     border-radius: 5px;
-    margin-left: 85%;
-    padding: 8px 15px;
+    padding: 8px;
     border: none;
     color: #ffff;
 }
 
-.goods-list {
+.products {
     max-width: 750px;
     display: flex;
     flex-direction: row;
@@ -34,9 +41,10 @@ img{
 }
 
 .goods-item {
+    max-width: 230px;
     background-color: rgb(244,245,250);
     padding: 10px;
-    margin: 15px;
+    margin: 10px 0px;
     display: flex;
     flex-direction: column;
 }
@@ -44,7 +52,6 @@ img{
 .buy-button {
     border-radius: 5px;
     padding: 5px 15px;
-    margin-left: 75px;
     margin-top: 15px;
     border: none;
     background-color: rgb(164,158,240);
