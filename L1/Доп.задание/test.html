@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src = "script.js"></script>
+</head>
+
+<body>
+<!--
+Некая сеть фастфуда предлагает несколько видов гамбургеров:
+### Маленький (50 рублей, 20 калорий).
+### Большой (100 рублей, 40 калорий). 
+### Гамбургер может быть с одним из нескольких видов начинок (обязательно):
+### С сыром (+10 рублей, +20 калорий).
+### С салатом (+20 рублей, +5 калорий).
+### С картофелем (+15 рублей, +10 калорий). 
+### Дополнительно гамбургер можно посыпать приправой (+15 рублей, +0 калорий) и полить майонезом (+20 рублей, +5 калорий). 
+### Напишите программу, рассчитывающую стоимость и калорийность гамбургера. 
+Можно использовать примерную архитектуру класса из методички, но можно использовать и свою.-->
+   <div class="main">
+    <p class="heading">MENU</p>
+
+       <div class="menu">
+       <div class="menu_options">
+           <p class="menu_head">Выберите бургер:</p>
+            <p><input name="burger" type="radio" value-data="small_bur" value_price="50" value_cal="20"> Малый бургер</p>
+            <p><input name="burger" type="radio" value-data="big_bur" value_price="100" value_cal="40"> Большой бургер</p>
+            
+            <p class="menu_head">Выберите начинку:</p>
+            <p><input name="topping" type="radio" value-data="cheese" value_price="10" value_cal="20"> С сыром</p>
+            <p><input name="topping" type="radio" value-data="salat" value_price="20" value_cal="5"> С салатом</p>
+            <p><input name="topping" type="radio" value-data="potato" value_price="15" value_cal="10"> С картофелем</p>
+            <p class="menu_head">Дополнительно:</p>
+            <p><input name="optional_topping" type="checkbox" value-data="flavouring" value_price="15" value_cal="0"> Посыпать приправой</p>
+            <p><input name="optional_topping" type="checkbox" value-data="maio" value_price="20" value_cal="5"> Посыпать приправой</p>
+       </div>
+            <button class="add">Добавить</button>
+
+    
+    </div>
+    <div class="info">
+        <p class="menu_head info_head">Ваш заказ:</p>
+
+        <div class="info_price">
+            <p class="menu_head">Стоимость:</p>
+            <p class="total total_price">1000</p>
+        </div>
+        
+           <div class="info_cal">
+            <p class="menu_head">Калорийность:</p>
+            <p class="total total_cal">1000</p>
+
+
+        </div>        
+    <button class ="submit">Заказать</button>
+    </div>
+    
+</div>
+</body>
+</html>
