@@ -56,7 +56,7 @@ class ProductItem {
                     <img class="goods-img" src="${this.img}"/>
                     <h3>${this.title}</h3>
                     <p>${this.price}</p>
-                    <button class="buy-button" type="button">Купить</button>
+                    <button class="buy-button button" type="button">Купить</button>
                 </div>`;
     }
 }
