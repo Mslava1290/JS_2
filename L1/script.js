@@ -20,8 +20,9 @@ class ProductList {
         this.goods = [];
         this._fetchProducts();
         this.render(); //вывод товаров на страницу
+        this.getSum();
     }
-    _fetchProducts(){
+    _fetchProducts() {
         this.goods = [
             {id:1 ,title:'Notebook', price:2000},
             {id:2 ,title:'Mouse', price:20},
@@ -35,7 +36,13 @@ class ProductList {
             const item = new ProductItem(product);
             block.insertAdjacentHTML('beforeend', item.render());
         }
+    }//Метод подсчитывающий суммарную стоимость всех товаров.
+    getSum() {
+        let summ = 0;
+        this.goods.map(goods => summ += goods.price)
+        console.log(summ);
     }
+
 }
 class ProductItem {
     constructor(product, img='http://placehold.it/200x100/'){
