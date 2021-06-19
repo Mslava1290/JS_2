@@ -1,65 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src = "script.js"></script>
 </head>
-
 <body>
-<!--
-Некая сеть фастфуда предлагает несколько видов гамбургеров:
-### Маленький (50 рублей, 20 калорий).
-### Большой (100 рублей, 40 калорий). 
-### Гамбургер может быть с одним из нескольких видов начинок (обязательно):
-### С сыром (+10 рублей, +20 калорий).
-### С салатом (+20 рублей, +5 калорий).
-### С картофелем (+15 рублей, +10 калорий). 
-### Дополнительно гамбургер можно посыпать приправой (+15 рублей, +0 калорий) и полить майонезом (+20 рублей, +5 калорий). 
-### Напишите программу, рассчитывающую стоимость и калорийность гамбургера. 
-Можно использовать примерную архитектуру класса из методички, но можно использовать и свою.-->
-   <div class="main">
-    <p class="heading">MENU</p>
+    <form action="#" id="burger-form">
+        <fieldset id="burgerfieldset">
+            <p class="heading">MENU</p>
+            <fieldset class="burger-fieldset-inside">
+                <p class="menu_head">Выберите бургер:</p>
+                <input name="size" type="radio"  id="bigburger" value="big" class="burger-input" data-price="50" data-calories="20" checked> <label for="bigburger">Большой бургер (100р/40ккал)</label> <br> <br>
+                <input name="size" type="radio" id="smallburger" value="small" class="burger-input" data-price="100" data-calories="40"> <label for="smallburger">Малый бургер (50р/20ккал)</label>
+            </fieldset>
+            <fieldset class="burger-fieldset-inside">
+                <p class="menu_head">Выберите начинку:</p>
+                <input name="add" type="radio" id="cheese" checked value="cheese" class="burger-input" data-price="10" data-calories="20"><label for="cheese"> С сыром(10р/20ккал)</label> <br> <br>
+                <input name="add" type="radio" id="salat" value="salat" class="burger-input" data-price="20" data-calories="5"><label for="salat"> С салатом(20р/50ккал)</label> <br> <br>
+                <input name="add" type="radio" id="potato" value="potato" class="burger-input" data-price="15" data-calories="10"><label for="potato"> C Картошкой(15р/10ккал)</label> <br> <br>
+            </fieldset>
+            <fieldset class="burger-fieldset-inside">
+                <p class="menu_head">Дополнительно:</p>
+                <input class="burger-input" type="checkbox" checked name="topings" id="seasoning" value="spices" data-price="15" data-calories="0"><label for="seasoning">Посыпать приправой (15р/0ккал)</label>
+                <input class="burger-input" type="checkbox" name="topings" id="mayo" value="mayo" data-price="20" data-calories="5"><label for="mayo">Полить майонезом (20р/5ккал)</label>
+            </fieldset>
+            <div id="check">
+                <h4>Собрать бургер</h4>
+            </div>
+            <p id="result">Итоговая стоимость:
+                <span id="price">0</span> <br>
+                Кол-во калорий:
+                <span id="calories">0</span>
+            </p>
+        </fieldset>
+    </form>
+    <script src="script.js"></script>
+    <script>
+        window.onload = () => {
+            document.getElementById("check").addEventListener('click', () => {
+                let burger = new Burger('size','add','topings');
+                console.log(burger);
+                burger.showSum("#price","#calories");
+            });
+           
+        }
+    </script>
 
-       <div class="menu">
-       <div class="menu_options">
-           <p class="menu_head">Выберите бургер:</p>
-            <p><input name="burger" type="radio" value-data="small_bur" value_price="50" value_cal="20"> Малый бургер</p>
-            <p><input name="burger" type="radio" value-data="big_bur" value_price="100" value_cal="40"> Большой бургер</p>
-            
-            <p class="menu_head">Выберите начинку:</p>
-            <p><input name="topping" type="radio" value-data="cheese" value_price="10" value_cal="20"> С сыром</p>
-            <p><input name="topping" type="radio" value-data="salat" value_price="20" value_cal="5"> С салатом</p>
-            <p><input name="topping" type="radio" value-data="potato" value_price="15" value_cal="10"> С картофелем</p>
-            <p class="menu_head">Дополнительно:</p>
-            <p><input name="optional_topping" type="checkbox" value-data="flavouring" value_price="15" value_cal="0"> Посыпать приправой</p>
-            <p><input name="optional_topping" type="checkbox" value-data="maio" value_price="20" value_cal="5"> Посыпать приправой</p>
-       </div>
-            <button class="add">Добавить</button>
-
-    
-    </div>
-    <div class="info">
-        <p class="menu_head info_head">Ваш заказ:</p>
-
-        <div class="info_price">
-            <p class="menu_head">Стоимость:</p>
-            <p class="total total_price">1000</p>
-        </div>
-        
-           <div class="info_cal">
-            <p class="menu_head">Калорийность:</p>
-            <p class="total total_cal">1000</p>
-
-
-        </div>        
-    <button class ="submit">Заказать</button>
-    </div>
-    
-</div>
 </body>
+
 </html>
