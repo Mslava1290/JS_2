@@ -7,28 +7,16 @@
     </head>
     <body>
         <header>
-            <div class="products">
-                <div class="top_block">
-                    <div class="header"> Catalog </div>
-                    <div> <button class="cart-button button" type="button">Корзина</button> </div>
+            <div class="top-block">
+                <div class="logo">E-SHOP</div>
+                <div class="cart">
+                    <button class="btn-cart" type="button">Корзина</button>
                 </div>
             </div>
     </header>
-        <main>
-            <div class="goods-list"></div>
-            <div class="top_block products basket">
-                <div class="basketItems"></div>
-                <div class="total"></div>
-            </div>
-            
-        </main>
-        <script>
-            window.onload = () => {
-                document.querySelector(".cart-button").addEventListener('click', () => {
-                    let mybasket = document.querySelector('.basket');
-                    mybasket.classList.toggle("showhide");
-                })
-        };
-        </script>
+    <main>
+        <div class="products"></div>
+        <div class="cart-block"></div>
+    </main>
     </body>
 </html>

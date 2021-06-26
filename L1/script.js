@@ -1,152 +1,200 @@
-/**
-1. Дан большой текст, в котором для оформления прямой речи используются одинарные кавычки. Придумать шаблон, который заменяет одинарные кавычки на двойные.
-2. Улучшить шаблон так, чтобы в конструкциях типа aren't одинарная кавычка не заменялась на двойную.
-3. *Создать форму обратной связи с полями: Имя, Телефон, E-mail, текст, кнопка Отправить. При нажатии на кнопку Отправить произвести валидацию полей следующим образом:
-a. Имя содержит только буквы.
-b. Телефон имеет вид +7(000)000-0000.
-c. E-mail имеет вид mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru.
-d. Текст произвольный.
-e. Если одно из полей не прошло валидацию, необходимо выделить это поле красной рамкой и сообщить пользователю об ошибке. 
-
-
- */
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-class ProductList {
-    constructor(container = '.products') {
+
+class List {
+    constructor (url, container, list = list2) {
         this.container = container;
+        this.list = list;
+        this.url = url;
         this.goods = [];
-        this.#fetchProducts()
-            .then(data => {
-                this.goods = [...data];
-                this.#render(); //вывод товаров на страницу
-            })
-        // this.getSum();
+        this.allProducts = [];
+        this.#init();
     }
-    #fetchProducts(){
-        return fetch(`${API}/catalogData.json`)
-            // .then (result => result.json()) // полученный json привели в обьект
-            .then (result => result.json())
+    getJson(url){
+        return fetch (url ? url: `${API + this.url}`)
+            .then (result => result.Json())
             .catch(error => {
                 console.log(error);
-            })
+        })
     }
-
-    #render() {
+    handleData(data){
+        this.goods = [...data];
+        this.render();
+    }
+    calcSum(){
+        return this.allProducts.reduce((accum, item) => accum += item.price, 0);
+    }
+    render(){
+        console.log(this.constructor.name)
         const block = document.querySelector(this.container);
-        for (let product of this.goods) {
-            const item = new ProductItem(product);
-            block.insertAdjacentHTML('beforeend', item.render());
+        for (let product of this.goods){
+            // мы сделали обьект товара либо cartItem либо ProductItem
+            const productObj = new this.list[this.constructor.name](product)
+            console.log(productObj);
+            this.allProducts.push(productObj);
+            block.insertAdjacentHTML('beforeend', productObj.render());    
         }
     }
-
-    //Метод подсчитывающий суммарную стоимость всех товаров.
-    getSum() {
-        let summ = 0;
-        this.goods.map(goods => summ += goods.price)
-        console.log(summ);
-    }
-
-}
-
-class BasketList {
-    constructor(basket = '.basketItems', total = '.total') {
-        this.basket = basket;
-        this.total = total;
-        this.goodsOfBasket = [];
-        this.#fetchProductsForBasket()
-        .then(data => {
-                this.goodsOfBasket = [...data.contents];
-                this.goodsOfBasket.amount = data.amount;
-                this.goodsOfBasket.countGoods = data.countGoods;
-                console.log(this.goodsOfBasket)
-                this.#renderForBasket(); //вывод товаров в раздел корзина
-            })
-    }
-
-     #fetchProductsForBasket(){
-         return fetch(`${API}/getBasket.json`)
-            .then(result => result.json()) // полученный json привели в обьект
-            .catch(error => {
-                console.log(error);
-            })
-    }
-    #renderForBasket() {
-        const block = document.querySelector(this.basket);
-        const total = document.querySelector(this.total);
-        this.goodsOfBasket.forEach((el,index) => {// Использовал forEach, что бы пробросить индексы в корзину
-            const item = new ProductItem(el);
-            block.insertAdjacentHTML('beforeend', item.renderItemsBasket(index));
-        })
-        // for (let product of this.goodsOfBasket) {
-        //     const item = new ProductItem(product);
-        //     block.insertAdjacentHTML('afterbegin', item.renderItemsBasket());
-        // }
-        total.insertAdjacentHTML('beforeend', `Товаров: ${this.goodsOfBasket.countGoods}. <br> На сумму: ${this.goodsOfBasket.amount} руб.`);
+    #init(){
+        return false
     }
 }
 
-class ProductItem {
-    constructor(product, img='http://placehold.it/200x100/'){
-        this.title = product.product_name;
-        this.id = product.id;
-        this.price = product.price;
+class Item {
+    constructor(el, img = 'https://via.placeholder.com/200x150'){
+        this.product_name = el.product_name;
+        this.price = el.price;
+        this.id_product = el.id_product;
         this.img = img;
-        // this.quantity = quantity; // Подскажите как пробросить кол-во с файлика? 
-        //Делать отдельный класс, который будет содержать quantity ?
     }
+    render(){//Генерация товаров для каталога товаров
+        return `<div class="product-item" data-id = "${this.id_product}">
+                    <img src="${this.img}" alt="Some image">
+                    <div class="desc">
+                        <h3>${this.product.name}</h3>
+                        <p>${this.price} $</p>
+                        <button class="buy-btn"
+                        data-id="${this.id_product}
+                        data-name="${this.product_name}"
+                        data-price="${this.price}">Купить</button>
+                    </div>
+                </div>`
+    }
+}
 
-    render() {
-        return `<div class="goods-item">
-                    <img class="goods-img" src="${this.img}"/>
-                    <h3>${this.title}</h3>
-                    <p>${this.price}</p>
-                    <button class="buy-button button" type="button">Купить</button>
-                </div>`;
+class ProductList extends List{
+    constructor(cart, container = '.products', url = '/catalogData.json'){
+        super(url, container)// вызываем конструктор базового класса. Отправляем в наш базовый конструктор наш URL и container
+        this.cart = cart;
+        this.getJson()
+            .then(data => this.handleData(data));//Запускает отрисовку либо каталога товаров либо списка товаров корзины
     }
-   
-    renderItemsBasket(index) {  //Пробросил индексы.
-        return `<div class="basketstring"> 
-        ${index+1}. 
-        ${this.title} | 
-        ${this.price} руб.</div> 
-        <hr>`;
+    #init(){
+        document.querySelector(this.container).addEventListener('click', e =>{
+            if(e.target.classList.contains('.buy-btn')){
+                    this.cart.addProduct(e.target);
+               }
+        });
     }
 }
 
 
-//Класс-заготовка для корзины
-class Bucket {
-    //Метод для оформления заказа
-    Checkout(title, price){
-        this.title = title;
-        this.price = price;
-    };
-    //Метод для быстрой покупки без регистрации
-    CheckoutQuick(title, price){
-        this.title = title;
-        this.price = price;
-    };
+
+class ProductItem extends Item{}
+/*Цели конструтора каталога и корзины одна и таже:
+Регистрация события по клику
+Заполнить массив товаров из файлы JSON
+Вывод данных на странице, используя метод handleData, который заполняет глобальный массив
+товаров и выводит их на странице вызываю метод render*/
+class Cart extends List {
+    constructor(container = '.cart-block', url ='/getBasket.json'){
+        super(url, container);
+        this.getJson(url)
+            .then(data => {
+                this.handleData(data.contents)//  вывели товары в корзине
+            });
+    }
+    addProduct(element){
+       
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #init(){
+        document.querySelector('.btn-cart').addEventListener('click',()=>{
+            document.querySelector(this.container).classList.toggle('invisible');
+        });
+        document.querySelector(this.container).addEventListener('click', e =>{
+            if(e.target.classList.contains('.del-btn')){
+                this.removeProduct(e.target);
+            }
+        })
+    }
+
+
+
 }
 
-//Класс-заготовка для элемента корзины
-class BucketEl {
-    //метод для быстрого изменения количества товара в корзине. Например "+" "-" напротив товара
-    ChangeQuantity(){
 
-    };
-    //метод для удаления товара из корзины
-    DeleteItem(){
 
-    };
-    //метод для подсчета суммы в рамках одного товара. Например, если товара берется >1 шт.
-    GetAmount(){
 
-    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CartItem extends Item {
+    constructor (el, img = 'https://via.placeholder.com/50x100'){
+        super(el, img);
+        this.quantity = quantity;
+    }
+
+    render (){
+        return `<div class="cart-item" data-id = "${this.id_product}">
+                    <div class="product-bio">
+                        <img src="${this.img}" alt="Some image">
+                        <div class="product-desc">
+                            <p class="product-title">${this.product.name}</p>
+                            <p class="product-quantity">${this.product.quantity}</p>
+                            <p class="product-single-price">$${this.price} each</p>
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <p class="product-price">$${this.price * this.quantity}</p>
+                        <button class="del-btn" data-id="${this.id_product}">SIMBOL</button>
+                    </div>
+                </div>`
+    }
 }
 
-//Метод для подсчета стоимости товаров
+const list2 = {
+    ProductList: ProductItem,
+    Cart: CartItem
+};
 
 
-let list = new ProductList();
-let basketlist = new BasketList();
-let basketClick = document.querySelector('basket');
+// class A{
+//     f(b){
+//         b.g()
+//     }
+// }
+// class B{
+//     g(){}
+// }
+// let a = new A()
+// A.f(b)
+
+
+
+let cart = new Cart();
+let products = new ProductList(cart);
