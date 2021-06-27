@@ -7,6 +7,7 @@ class List {
         this.url = url;
         this.goods = [];
         this.allProducts = [];
+        this.filtered = [];
         this._init();
     }
     getJson(url){
@@ -33,6 +34,20 @@ class List {
         console.log(this.allProducts)
 
     }
+    filter(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filtered = this.allProducts.filter(product => regexp.test(product.product_name));
+        this.allProducts.forEach(el => {
+            const block = document.querySelector(`.product-item[data-id="${el.id_product}"]`);
+            if(!this.filtered.includes(el)) {
+                block.classList.add('invisible');
+            } else {
+                block.classList.remove('invisible')
+            }
+        })
+    }
+
+
     _init(){
         return false
     }
@@ -73,6 +88,14 @@ class ProductList extends List{
                 this.cart.addProduct(e.target);
                }
         });
+        document.querySelector('.search-form').addEventListener('submit', e => {
+            e.preventDefault();
+            this.filter(document.querySelector('.search-field').value);
+        })
+    
+    
+    
+    
     }
 }
 

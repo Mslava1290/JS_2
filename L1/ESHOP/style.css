@@ -26,6 +26,12 @@ header{
 }
 .cart{
     margin-right: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.search-form {
+    padding-right: 30px;
 }
 button {
     background-color: #000;
