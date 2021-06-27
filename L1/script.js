@@ -7,24 +7,25 @@ class List {
         this.url = url;
         this.goods = [];
         this.allProducts = [];
-        this.#init();
+        this._init();
     }
     getJson(url){
-        return fetch (url ? url: `${API + this.url}`)
-            .then (result => result.Json())
+        return fetch (url = `${API + this.url}`)
+            .then (result => result.json())
             .catch(error => {
                 console.log(error);
         })
     }
     handleData(data){
         this.goods = [...data];
+        console.log(this.goods)
         this.render();
     }
     calcSum(){
         return this.allProducts.reduce((accum, item) => accum += item.price, 0);
     }
     render(){
-        console.log(this.constructor.name)
+        // console.log(this.constructor.name)
         const block = document.querySelector(this.container);
         for (let product of this.goods){
             // мы сделали обьект товара либо cartItem либо ProductItem
@@ -34,7 +35,7 @@ class List {
             block.insertAdjacentHTML('beforeend', productObj.render());    
         }
     }
-    #init(){
+    _init(){
         return false
     }
 }
@@ -50,7 +51,7 @@ class Item {
         return `<div class="product-item" data-id = "${this.id_product}">
                     <img src="${this.img}" alt="Some image">
                     <div class="desc">
-                        <h3>${this.product.name}</h3>
+                        <h3>${this.product_name}</h3>
                         <p>${this.price} $</p>
                         <button class="buy-btn"
                         data-id="${this.id_product}
@@ -68,7 +69,7 @@ class ProductList extends List{
         this.getJson()
             .then(data => this.handleData(data));//Запускает отрисовку либо каталога товаров либо списка товаров корзины
     }
-    #init(){
+    _init(){
         document.querySelector(this.container).addEventListener('click', e =>{
             if(e.target.classList.contains('.buy-btn')){
                     this.cart.addProduct(e.target);
@@ -76,7 +77,6 @@ class ProductList extends List{
         });
     }
 }
-
 
 
 class ProductItem extends Item{}
@@ -94,29 +94,53 @@ class Cart extends List {
             });
     }
     addProduct(element){
-       
-        
+        this.getJson(`${API}/addToBasket.json`)
+            .then(data => {
+                if(data.result === 1) {
+                    let productId = +element.dataset['id'];
+                    let find = this.addProducts.find(product => product.id_product === product.Id);
+                    if (find) {
+                        find.quantity++;
+                        this._updateCart(find);
+                    } else {
+                        let product = {
+                            id_product : productId,
+                            price: +element.dataset['price'],
+                            product_name: element.dataset['name'],
+                            quantity: 1
+                        };
+                        this.goods = [product];
+                        this.render();
+                    }
+                } else {
+                    alert('Error');
+                }
+            })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #init(){
+    removeProduct(element){
+            this.getJson(`${API}/deleteFromBasket.json`)
+            .then(data => {
+                if(data.result === 1) {
+                    let productId = +element.dataset['id'];
+                    let find = this.addProducts.find(product => product.id_product === product.Id);
+                    if(find.quantity >1) {
+                        find.quantity--;
+                        this._updateCart(find);
+                    } else {
+                        this.allProducts.splice(this.allProducts.indexOf(find),1);
+                        document.querySelector(`.cart-item[data-id "${productId}"]`).remove();
+                    }
+                } else {
+                    alert('Error');
+                }
+            })
+    }
+    _updateCart(product){
+        let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
+        block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`;
+        block.querySelector('.product-price').textContent = `$${product.quantity*product.price}`;
+    }
+    _init(){
         document.querySelector('.btn-cart').addEventListener('click',()=>{
             document.querySelector(this.container).classList.toggle('invisible');
         });
@@ -127,56 +151,30 @@ class Cart extends List {
         })
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class CartItem extends Item {
     constructor (el, img = 'https://via.placeholder.com/50x100'){
         super(el, img);
         this.quantity = quantity;
     }
-
     render (){
         return `<div class="cart-item" data-id = "${this.id_product}">
                     <div class="product-bio">
                         <img src="${this.img}" alt="Some image">
                         <div class="product-desc">
-                            <p class="product-title">${this.product.name}</p>
-                            <p class="product-quantity">${this.product.quantity}</p>
-                            <p class="product-single-price">$${this.price} each</p>
+                            <p class="product-title">${this.product_name}</p>
+                            <p class="product-quantity">${this.quantity}</p>
+                            <p class="product-single-price">$${this.price}</p>
                         </div>
                     </div>
                     <div class="right-block">
                         <p class="product-price">$${this.price * this.quantity}</p>
-                        <button class="del-btn" data-id="${this.id_product}">SIMBOL</button>
+                        <button class="del-btn" data-id="${this.id_product}">Удалить</button>
                     </div>
                 </div>`
     }
 }
-
 const list2 = {
     ProductList: ProductItem,
     Cart: CartItem

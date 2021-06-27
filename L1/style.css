@@ -27,28 +27,57 @@ header{
 .cart{
     margin-right: 15px;
 }
-.btn-cart{
-    padding: 15px;
+button {
     background-color: #000;
     border-radius: 5px;
     border-style: none;
     color: #fff;
 }
-.invisible {
-    display: none;
+
+.btn-cart{
+    padding: 15px;
 }
+
+.buy-btn, .del-btn{
+    padding: 10px;
+}
+
 .products {
-    width: 75%;
+    padding: 10px;
+    display: flex;
+    width: 60%;
     height: 75vh;
     margin-left: 15px;
     background-color: rgb(240, 240, 204);
 
 }
-
 .cart-block {
+    padding: 10px;
     width: 30%;
     height: 75vh;
     background-color: rgb(245, 206, 206);
     margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.cart-item {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.product-bio {
+    display: flex;
+}
 
+
+
+
+
+
+
+.invisible {
+    display: none;
 }
