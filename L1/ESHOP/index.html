@@ -5,22 +5,25 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <header>
-            <div class="top-block">
-                <div class="logo">E-SHOP</div>
-                <div class="cart">
-                    <form action="#" class="search-form">
-                        <input type="text" class="search-field">
-                        <button class="btn-search" type="submit"> Искать </button>
-                    </form>
-                    <button class="btn-cart" type="button">Корзина</button>
+        <div id="app">
+            <header>
+                <div class="top-block">
+                    <div class="logo">E-SHOP</div>
+                    <div class="cart">
+                        <form action="#" class="search-form">
+                            <input type="text" class="search-field">
+                            <button class="btn-search" type="submit"> Искать </button>
+                        </form>
+                        <button class="btn-cart" type="button">Корзина</button>
+                    </div>
                 </div>
-            </div>
-    </header>
-    <main>
-        <div class="products"></div>
-        <div class="cart-block invisible"></div>
-    </main>
+            </header>
+            <main>
+                <div class="products"></div>
+                <div class="cart-block invisible"></div>
+            </main>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="script.js"></script>
     </body>
-    <script src="script.js"></script>
 </html>
