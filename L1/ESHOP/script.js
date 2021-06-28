@@ -1,51 +1,78 @@
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-// 1. Добавить методы и обработчики событий для поля поиска. Создать в объекте данных поле searchLine и привязать к нему содержимое поля ввода. На кнопку «Искать» добавить обработчик клика, вызывающий метод FilterGoods.
+﻿// 1. Добавить методы и обработчики событий для поля поиска. Создать в объекте данных поле searchLine и привязать к нему содержимое поля ввода. На кнопку «Искать» добавить обработчик клика, вызывающий метод FilterGoods.
 // 2. Добавить корзину. В html-шаблон добавить разметку корзины. Добавить в объект данных поле isVisibleCart, управляющее видимостью корзины.
 // 3. *Добавлять в .goods-list заглушку с текстом «Нет данных» в случае, если список товаров пуст.
 
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
+const app = new Vue({
+    el: '#app',
+    data: {
+        catalogUrl:'/catalogData.json',
+        products: [],
+        imgCatalog: 'https://via.placeholder.com/150x100',
+        imgBasket: 'https://via.placeholder.com/75x75',
+        userSearch: '',
+        show: false,
+        filtered: [],
+        basketproducts:[],
+    },
+    methods: {
+        getJson(url) {
+            return fetch(url)
+                .then(result => result.json())
+                .catch(error =>{
+                    console.log(error);
+            })
+        },//Проверяем есть ли добавляемый обьект в корзине. Если есть, то меняет кол-во, если нет -- то создаем.
+        addProduct(product) {
+            let productId = product.id_product;
+            let find = this.basketproducts.find(product => product.id_product === productId);
+            if (find) {
+                find.quantity++;
+            } else {
+                        let newproduct = {
+                            id_product: productId,
+                            price: product.price,
+                            product_name: product.product_name,
+                            quantity:1,
+                        };
+                    this.basketproducts.push(newproduct);
+            }        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        },//Ищем обьект. Если есть, и кол-во >1, то меняем кол-во. Если меньше, то удаляем из массива.
+        removeProduct(product) {
+            let productId = product.id_product;
+            let find = this.basketproducts.find(product => product.id_product === productId);
+            if (find) {
+                if(find.quantity > 1){
+                    find.quantity--;
+                }else {
+                   this.basketproducts.splice(this.basketproducts.indexOf(find),1);
+                }
+            }
+        },
+        filter() {
+            const regexp = new RegExp(this.userSearch, 'i');
+            this.filtered = this.products.filter(product => regexp.test(product.product_name))
+        }
+    },
+    mounted() {
+        this.getJson(`${API + this.catalogUrl}`)
+            .then(data => {
+            for(let el of data){
+                this.products.push(el);
+                this.filtered.push(el);
+            }
+        })
+        this.getJson('getProducts.json')
+            .then(data => {
+            for(let el of data){
+                this.products.push(el);
+                this.filtered.push(el);
+            }
+        })
+    }
+})
 
 
 // class List {
