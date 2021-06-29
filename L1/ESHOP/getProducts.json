@@ -1,6 +1,6 @@
 [
   {
-    "id_product": 789,
+    "id_product": 666,
     "product_name": "Монитор",
     "price": 12000
   },
@@ -8,17 +8,17 @@
     "id_product": 12,
     "product_name": "Корпус",
     "price": 4000
-  }
+  },
   {
     "id_product": 34,
     "product_name": "Видеокарта",
     "price": 50000
-  }
+  },
   {
     "id_product": 45,
     "product_name": "жесткий диск",
     "price": 10000
-  }
+  },
   {
     "id_product": 56,
     "product_name": "ОЗУ",
