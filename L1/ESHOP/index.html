@@ -10,45 +10,30 @@
                 <div class="top-block">
                     <div class="logo">E-SHOP</div>
                     <div class="cart">
-                        <form action="#" class="search-form" @submit.prevent='filter()'>
-                            <input type="text" class="search-field" v-model='userSearch'>
-                            <button class="btn-search" type="submit">Искать</button>
-                        </form>
-                        <button class="btn-cart" type="button">Корзина</button>
-
+                        <filtered></filtered>
+                        <button class="btn-cart" type="button" @click ="showCart = !showCart">Корзина</button>
                     </div>
                 </div>
             </header>
             <main>
-                <div class="products">
-                    <div class="product-item" v-for="product of filtered">
-                        <img :src="imgCatalog" alt="Some Img">
-                        <div class="desc">
-                            <h3>{{ product.product_name }}</h3>
-                            <p>{{ product.price }}</p>
-                            <button class="buy-btn" @click='addProduct(product)'>Купить</button>
-                        </div>                    
-                    </div>
-                </div>
-                <div class="cart-block">
-                    <div class="cart-item" v-for="product of basketproducts">
-                        <div>
-                            <img :src="imgBasket" alt="Some Img">
-                        </div>
-                        <div class="desc-of-bskt">
-                            <h3>{{ product.product_name }}</h3>
-                            <p>Цена: {{ product.price }}</p>
-                            <p>Количество: {{ product.quantity }}</p>
-                        </div>
-                        <div class="btn-quantity">
-                            <button class="more-btn" @click='addProduct(product)'>+</button>
-                            <button class="less-btn" @click='removeProduct(product)'>-</button>
-                        </div>
-                    </div>
-                </div>
+                <products :products = "filtered" :img = "imgCatalog"></products> 
+                <basket :cart-items="basketproducts" :img="imgBasket" :visibility="showCart">
+                    <p v-if="!$root.basketproducts.length">Empty</p>
+                </basket>
+ 
             </main>
+            <footer>
+                <error :status = "$root.errorstatus">
+                    123
+                </error>
+            </footer>
+
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="script.js"></script>
+        <script src="JS/comp_filter.js"></script>
+        <script src="JS/comp_basket.js"></script>
+        <script src="JS/comp_prod.js"></script>
+        <script src="JS/comp_error.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

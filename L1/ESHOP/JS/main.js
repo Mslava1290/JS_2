@@ -1,42 +1,42 @@
-﻿//1. Вынести поиск в отдельный компонент.
-//2. Вынести корзину в отдельный компонент. Можно оставить вариант из урока
-//3. *Создать компонент с сообщением об ошибке. Компонент должен отображаться, когда не удаётся выполнить запрос к серверу.
+﻿// 1. Вынести поиск в отдельный компонент.
+// 2. Вынести корзину в отдельный компонент. Можно оставить вариант из урока
+// 3. *Создать компонент с сообщением об ошибке. Компонент должен отображаться, когда не удаётся выполнить запрос к серверу.
 
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 const app = new Vue({
     el: '#app',
     data: {
-        catalogUrl:'/catalogData.json',
-        products: [],
-        imgCatalog: 'https://via.placeholder.com/150x100',
-        imgBasket: 'https://via.placeholder.com/75x75',
         userSearch: '',
-        show: false,
-        filtered: [],
+        showCart: false,
+        catalogUrl:'/catalogData.json',
+        cartUrl:'/getBasket.json',
         basketproducts:[],
+        filtered: [],
+        imgCatalog: 'https://via.placeholder.com/150x100',
+        products: [],
+        imgBasket: 'https://via.placeholder.com/75x75',
+        errorstatus: false,
+        errormessage: '',
     },
     methods: {
         getJson(url) {
             return fetch(url)
                 .then(result => result.json())
                 .catch(error =>{
-                    console.log(error);
-            })
-        },//Проверяем есть ли добавляемый обьект в корзине. Если есть, то меняет кол-во, если нет -- то создаем.
+                    this.errorstatus = true;
+                    this.errormessage = error;
+                })
+        },
+        //Проверяем есть ли добавляемый обьект в корзине. Если есть, то меняет кол-во, если нет -- то создаем.
         addProduct(product) {
-            let productId = product.id_product;
-            let find = this.basketproducts.find(product => product.id_product === productId);
+            let find = this.basketproducts.find(item => item.id_product === product.id_product);
             if (find) {
                 find.quantity++;
+                this.TotalSum(find);
             } else {
-                        let newproduct = {
-                            id_product: productId,
-                            price: product.price,
-                            product_name: product.product_name,
-                            quantity:1,
-                        };
-                    this.basketproducts.push(newproduct);
+                    //создаем новый обьект путем слияния нового обьекта с 1 св-вом и product, и пушим.
+                    this.basketproducts.push(Object.assign({quantity:1}, product));
             }        
 
         },//Ищем обьект. Если есть, и кол-во >1, то меняем кол-во. Если меньше, то удаляем из массива.
@@ -46,33 +46,61 @@ const app = new Vue({
             if (find) {
                 if(find.quantity > 1){
                     find.quantity--;
+                    this.TotalSum(product);
                 }else {
                    this.basketproducts.splice(this.basketproducts.indexOf(find),1);
+                    this.TotalSum(product);
                 }
             }
         },
         filter() {
             const regexp = new RegExp(this.userSearch, 'i');
             this.filtered = this.products.filter(product => regexp.test(product.product_name))
-        }
+        },
+        //Подсчет общей суммы за 1 товар.
+        TotalSum(product) {
+            product.total = product.price*product.quantity;
+            },
     },
-    mounted() {
+    mounted(){
         this.getJson(`${API + this.catalogUrl}`)
             .then(data => {
-            for(let el of data){
-                this.products.push(el);
-                this.filtered.push(el);
+                for(let el of data){
+                    this.products.push(el)
+                    this.filtered.push(el)
+                }
+            }),
+        this.getJson(`${API + this.cartUrl}`)
+        .then(data => {
+            for(let el of data.contents){
+                this.basketproducts.push(el)
             }
         })
-        this.getJson('getProducts.json')
-            .then(data => {
-            for(let el of data){
-                this.products.push(el);
-                this.filtered.push(el);
-            }
-        })
+        // this.getJson('/getProducts.json')
+        //     .then(console.log(data))
+        //     .then(data => {
+        //         for(let el of data){
+        //             this.products.push(el);
+        //             this.filtered.push(el);
+        //         }
+        //     })
     }
-})
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // class List {
