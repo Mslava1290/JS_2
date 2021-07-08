@@ -5,13 +5,13 @@
 main {
     display: flex;
     flex-direction: row;
-    width: 1200px;
+    max-width: 1200px;
 }
 header{
     height: 15vh;
     background-color: rgb(244,245,250);
     margin-bottom: 10px;
-    width: 1200px;
+    max-width: 1200px;
 }
 .top-block{
     padding: 0 10px;
@@ -124,5 +124,5 @@ footer{
     height: 35px;
     background-color: rgb(244,245,250);
     margin-bottom: 10px;
-    width: 1200px;
+    max-width: 1200px;
 }

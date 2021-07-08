@@ -7,18 +7,19 @@
     <body>
         <div id="app">
             <header>               
-                <div class="top-block">
+                <div  class="top-block">
                     <div class="logo">E-SHOP</div>
                     <div class="cart">
                         <filtered></filtered>
-                        <button class="btn-cart" type="button" @click ="showCart = !showCart">Корзина</button>
+                        <button class="btn-cart" type="button" 
+                        @click ="showCart = !showCart">Корзина</button>
                     </div>
                 </div>
             </header>
             <main>
-                <products :products = "filtered" :img = "imgCatalog"></products> 
-                <basket :cart-items="basketproducts" :img="imgBasket" :visibility="showCart">
-                    <p v-if="!$root.basketproducts.length">Empty</p>
+                <products ref="products"></products> 
+                <basket ref="basket" :visibility="showCart">
+                    <!-- <p v-if="!$root.$refs.basket.basketproducts.length">Empty</p> -->
                 </basket>
  
             </main>
@@ -27,7 +28,6 @@
                     123
                 </error>
             </footer>
-
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="JS/comp_filter.js"></script>
