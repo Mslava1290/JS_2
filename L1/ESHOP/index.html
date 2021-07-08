@@ -10,17 +10,13 @@
                 <div  class="top-block">
                     <div class="logo">E-SHOP</div>
                     <div class="cart">
-                        <filtered></filtered>
-                        <button class="btn-cart" type="button" 
-                        @click ="showCart = !showCart">Корзина</button>
+                        <filter_el></filter_el>
                     </div>
                 </div>
             </header>
             <main>
                 <products ref="products"></products> 
-                <basket ref="basket" :visibility="showCart">
-                    <!-- <p v-if="!$root.$refs.basket.basketproducts.length">Empty</p> -->
-                </basket>
+                <cart ref="cart"></cart>
  
             </main>
             <footer>
@@ -31,7 +27,7 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="JS/comp_filter.js"></script>
-        <script src="JS/comp_basket.js"></script>
+        <script src="JS/comp_cart.js"></script>
         <script src="JS/comp_prod.js"></script>
         <script src="JS/comp_error.js"></script>
         <script src="js/main.js"></script>

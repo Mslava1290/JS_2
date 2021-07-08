@@ -100,7 +100,9 @@ button:hover{
     margin-bottom: 5px;
     justify-content: space-between;
 }
-
+.product-item {
+    margin-bottom: 10px;
+}
 .invisible {
     display: none;
 }

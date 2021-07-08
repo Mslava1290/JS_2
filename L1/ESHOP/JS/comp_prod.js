@@ -5,7 +5,8 @@ const product = {
                     <div class="desc">
                         <h3>{{ product.product_name }}</h3>
                         <p>{{ product.price }}</p>
-                        <button class="buy-btn" @click=$root.$refs.basket.addProduct(product)>Купить</button>
+                        <button class="buy-btn" 
+                        @click=$root.$refs.cart.addProduct(product)>Купить</button>
                     </div>                    
                 </div>`
 }
@@ -20,7 +21,9 @@ const products = {
             filtered: []
         }
     },
-    mounted(){
+    mounted() {
+
+        
         this.$parent.getJson(`${API + this.catalogUrl}`)
             .then(data => {
                 for(let el of data){
@@ -45,10 +48,10 @@ const products = {
     template: `
                 <div class="products">
                     <product 
-                    v-for="item of filtered"
-                    :key="item.id_product"
+                    v-for="product of filtered"
+                    :key="product.id_product"
                     :img="imgCatalog"
-                    :product="item">
+                    :product="product">
                     </product>
               </div>
               `

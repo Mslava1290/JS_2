@@ -7,7 +7,6 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 const app = new Vue({
     el: '#app',
     data: {
-        // userSearch: '',
         showCart: false,
         catalogUrl:'/catalogData.json',
         filtered: [],
@@ -16,7 +15,7 @@ const app = new Vue({
         errorstatus: false,
         errormessage: '',
     },
-    components:{basket, products, filtered},
+    components:{cart, products, filter_el},
     
     methods: {
         getJson(url) {
