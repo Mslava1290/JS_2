@@ -5,13 +5,13 @@
 main {
     display: flex;
     flex-direction: row;
-    max-width: 1200px;
+    width: 1000px;
 }
 header{
     height: 15vh;
     background-color: rgb(244,245,250);
     margin-bottom: 10px;
-    max-width: 1200px;
+    width: 1000px;
 }
 .top-block{
     padding: 0 10px;
@@ -83,7 +83,7 @@ button:hover{
 }
 .cart-block {
     top:auto;
-    right: 335px;
+    right: 5px;
     position: absolute;
     padding: 10px;
     min-width: 250px;
@@ -126,5 +126,5 @@ footer{
     height: 35px;
     background-color: rgb(244,245,250);
     margin-bottom: 10px;
-    max-width: 1200px;
+    width: 1000px;
 }

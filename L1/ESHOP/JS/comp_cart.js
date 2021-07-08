@@ -40,7 +40,8 @@ const cart = {
                             this.TotalSum(find);
                         } else {
                                 //создаем новый обьект путем слияния нового обьекта с 1 св-вом и product, и пушим.
-                                this.cartItems.push(Object.assign({quantity:1}, product));
+                                this.cartItems.push(Object.assign({
+                                    quantity:1, total:`${product.price}`}, product));
                             }
                     }else {
                         console.log('ошибка доступа к серверу')
