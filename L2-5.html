@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //Реализовать функцию с тремя параметрами: function mathOperation(arg1, arg2, operation),
+        //где arg1, arg2 – значения аргументов, operation – строка с названием операции. В зависимости от
+        //переданного значения операции (использовать switch) выполнить одну из арифметических операций
+        //(использовать функции из задания 4) и вернуть полученное значение.
+        function plus(a, b) {
+            return (a + b)
+        }
+
+        function minus(a, b) {
+            return (a - b)
+        }
+
+        function divide(a, b) {
+            return (a / b)
+        }
+
+        function multiply(a, b) {
+            return (a * b)
+        }
+
+
+        function mathOperation(a, b, operation) {
+            let answer;
+            switch (operation) {
+                case "plus":
+                    answer = plus(a, b);
+                    break;
+            }
+            console.log(answer);
+        }
+        let a = +prompt("введите первое число:");
+        let b = +prompt("введите второе число:");
+        let operation = prompt("введите операцию plus, minus, divide, multiply:");
+        mathOperation(a, b, operation);
+    </script>
+</body>
+
+</html>

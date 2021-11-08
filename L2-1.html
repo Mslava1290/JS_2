@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //пример 1 
+        // Инкременировали А, потом присвоили значение в С.
+        let a = 1,
+            b = 1,
+            c, d;
+        c = ++a;
+        alert(c); // ответ: 2 
+
+        //пример 2 
+        //Присвоили потом инкреминировали
+        d = b++;
+        alert(d); //ответ: 1 
+
+        //пример 3 
+        // Инкременировали А, получили 3, сложили 3+2 и передали в с.
+        c = 2 + ++a;
+        alert(c); //ответ: 5 
+
+        //пример 4
+        // сложили, присвоили и инкременировали
+        d = 2 + b++;
+        alert(d); //ответ: 4 
+        alert(a); //3 
+        alert(b); //3
+    </script>
+</body>
+
+</html>
